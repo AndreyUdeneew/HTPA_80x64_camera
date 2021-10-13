@@ -6,6 +6,7 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.filedialog import *
 from tkinter import ttk
+import time
 import os
 import numpy as np
 
@@ -46,7 +47,14 @@ def searching_for_ports():
             pass
     return availible_ports
 def open_COM_port():
-    text1.insert(INSERT, 'port is opened ')
+    text1.insert(INSERT, 'port is opened1')
+    ser = serial.Serial(port='COM19', baudrate=1000000)
+    ser.open()
+    data = ser.readline()
+    text1.insert(INSERT, data)
+    ser.close()
+    print(data)
+    return data
 
 def close_COM_port():
     text1.insert(INSERT, 'port is closed')
