@@ -27,12 +27,12 @@ def selectOutputDir():
     # outputFile = 'C:/Users/Stasy/Desktop/output2FLASH.txt'
 
 def take_a_photo():
-    def write_read(x):
-        ser.write(bytes(x, 'd'))
-        # time.sleep(0.05)
-        output = ser.read(100)
-        print('output')
-        return output
+    print("taking photo is about to begin")
+    # ser.write(bytes('d', 'utf-8'))
+    # time.sleep(0.05)
+    output = ser.read(100)
+
+    return output
 
 def take_a_video():
     text1.insert(INSERT, 'video')
@@ -45,7 +45,7 @@ speeds = ['1200','2400', '4800', '9600', '19200', '38400', '57600', '115200']
 def open_COM_port():
     data = ser.readline(10)
     text1.insert(INSERT, data)
-    print(data)
+    print("ready phrase was received")
     return data
 
 def close_COM_port():
