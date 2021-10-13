@@ -23,15 +23,15 @@ def selectOutputDir():
     text1.insert(INSERT, outputFile)
     # return outputFile
     # outputFile = 'C:/Users/Stasy/Desktop/output2FLASH.txt'
-    text1.insert(INSERT, 'Готово')
 
 def take_a_photo():
-    text1.insert(INSERT, 'Готово')
+    text1.insert(INSERT, 'photo')
+
 def take_a_video():
-    text1.insert(INSERT, 'Готово')
+    text1.insert(INSERT, 'video')
 
 def stop_a_video():
-    text1.insert(INSERT, 'Готово')
+    text1.insert(INSERT, 'stop')
 
 speeds = ['1200','2400', '4800', '9600', '19200', '38400', '57600', '115200']
 def searching_for_ports():
@@ -49,7 +49,7 @@ def open_COM_port():
     text1.insert(INSERT, 'port is opened ')
 
 def close_COM_port():
-    text1.insert(INSERT, 'port is closed ')
+    text1.insert(INSERT, 'port is closed')
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -75,15 +75,15 @@ if __name__ == '__main__':
     btn1.grid(column=5, row=0)
     btn2 = Button(window, text="Запись", command=take_a_video)
     btn2.grid(column=6, row=0)
-    btn3 = Button(window, text="Стоп", command=take_a_video)
+    btn3 = Button(window, text="Стоп", command=stop_a_video)
     btn3.grid(column=7, row=0)
     btn4 = Button(window, text="Открыть порт", command=open_COM_port)
     btn4.grid(column=1, row=1)
-    btn5 = Button(window, text="Закрыть порт", command=selectOutputDir)
+    btn5 = Button(window, text="Закрыть порт", command=close_COM_port)
     btn5.grid(column=2, row=1)
 
     window.mainloop()
-    print_hi('PyCharm')
+    print_hi('PyChar m')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 
