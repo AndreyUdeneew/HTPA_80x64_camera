@@ -7,6 +7,9 @@ from tkinter import filedialog
 from tkinter.filedialog import *
 from tkinter import ttk
 import serial
+import serial.tools.list_ports
+port_list = list(serial.tools.list_ports.comports())
+# print(port_list)
 # from serial import serial
 import time
 import os
@@ -28,10 +31,11 @@ def selectOutputDir():
 
 def take_a_photo():
     print("taking photo is about to begin")
-    # ser.write(bytes('d', 'utf-8'))
+    ser.write(b'd')
     # time.sleep(0.05)
-    output = ser.read(100)
-
+    output = ser.read(5120*4)
+    # output = ser.readline()
+    print(output.hex())
     return output
 
 def take_a_video():
@@ -40,7 +44,7 @@ def take_a_video():
 def stop_a_video():
     text1.insert(INSERT, 'stop')
 
-speeds = ['1200','2400', '4800', '9600', '19200', '38400', '57600', '115200']
+# speeds = ['1200','2400', '4800', '9600', '19200', '38400', '57600', '115200']
 
 def open_COM_port():
     data = ser.readline(10)
@@ -53,7 +57,7 @@ def close_COM_port():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    ser = serial.Serial(port='COM19', baudrate=1000000,parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
+    ser = serial.Serial(port='COM19', baudrate=1000000, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
     bytesize=serial.EIGHTBITS, timeout=0.1)
     window = Tk()
     window.geometry('900x500')
@@ -63,10 +67,10 @@ if __name__ == '__main__':
     labelTop = tk.Label(window, text="Выбор COM порта")
     labelTop.grid(column=0, row=0)
     comboExample = ttk.Combobox(window, values=['a', 'b'])
-    print(dict(comboExample))
+    # print(dict(comboExample))
     comboExample.grid(column=0, row=1)
     comboExample.current(1)
-    print(comboExample.current(), comboExample.get())
+    # print(comboExample.current(), comboExample.get())
 
     text1 = Text(width=30, height=1)
     text1.grid(column=3, row=0, sticky=(W))
