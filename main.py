@@ -6,12 +6,13 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.filedialog import *
 from tkinter import ttk
+import serial
+# from serial import serial
 import time
 import os
 import numpy as np
 
 # outputFile = "C:/Users/Stasy/Desktop/output2FLASH.txt"
-import serial
 
 
 def print_hi(name):
@@ -26,7 +27,12 @@ def selectOutputDir():
     # outputFile = 'C:/Users/Stasy/Desktop/output2FLASH.txt'
 
 def take_a_photo():
-    text1.insert(INSERT, 'photo')
+    def write_read(x):
+        ser.write(bytes(x, 'd'))
+        # time.sleep(0.05)
+        output = ser.read(100)
+        print('output')
+        return output
 
 def take_a_video():
     text1.insert(INSERT, 'video')
@@ -35,24 +41,10 @@ def stop_a_video():
     text1.insert(INSERT, 'stop')
 
 speeds = ['1200','2400', '4800', '9600', '19200', '38400', '57600', '115200']
-def searching_for_ports():
-    ports = ['COM%s' % (i + 1) for i in range(256)]
-    availible_ports = []
-    for port in ports:
-        try:
-            s = serial.Serial(port)
-            s.close()
-            availible_ports.append(port)
-        except (OSError, serial.SerialException):
-            pass
-    return availible_ports
+
 def open_COM_port():
-    text1.insert(INSERT, 'port is opened1')
-    ser = serial.Serial(port='COM19', baudrate=1000000)
-    ser.open()
-    data = ser.readline()
+    data = ser.readline(10)
     text1.insert(INSERT, data)
-    ser.close()
     print(data)
     return data
 
@@ -61,6 +53,8 @@ def close_COM_port():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    ser = serial.Serial(port='COM19', baudrate=1000000,parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
+    bytesize=serial.EIGHTBITS, timeout=0.1)
     window = Tk()
     window.geometry('900x500')
     window.title("HTPA_VIEWER")
@@ -91,7 +85,7 @@ if __name__ == '__main__':
     btn5.grid(column=2, row=1)
 
     window.mainloop()
-    print_hi('PyChar m')
+    print_hi('PyCharm')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 
