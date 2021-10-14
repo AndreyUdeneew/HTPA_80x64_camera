@@ -6,8 +6,11 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.filedialog import *
 from tkinter import ttk
+import matplotlib.pyplot as plt
 import serial
 import serial.tools.list_ports
+from numpy import uint16, double
+
 port_list = list(serial.tools.list_ports.comports())
 # print(port_list)
 # from serial import serial
@@ -33,9 +36,19 @@ def take_a_photo():
     print("taking photo is about to begin")
     ser.write(b'd')
     # time.sleep(0.05)
-    output = ser.read(5120*4)
+    output = ser.read(80*64*7+80).decode().strip()
     # output = ser.readline()
-    print(output.hex())
+    # print(output.hex())
+    # output=output.hex()
+    # output_dec = int(output, 16)
+    print(output)
+    temps = [double(t) for t in output.split(",")]
+    print(temps)
+    print(len(temps))
+    data = np.array(temps).reshape((2, 119))
+    ax.imshow(data)
+    # h.set_data(data)
+    plt.show()
     return output
 
 def take_a_video():
@@ -57,11 +70,15 @@ def close_COM_port():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    ser = serial.Serial(port='COM19', baudrate=1000000, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
+    ser = serial.Serial(port='COM20', baudrate=2000000, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
     bytesize=serial.EIGHTBITS, timeout=0.1)
     window = Tk()
     window.geometry('900x500')
     window.title("HTPA_VIEWER")
+
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 1, 1)
+
     # app = tk.Tk()
     # app.geometry('200x100')
     labelTop = tk.Label(window, text="Выбор COM порта")
