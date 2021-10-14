@@ -47,6 +47,7 @@ def take_a_photo():
     print(len(temps))
     data = np.array(temps).reshape((2, 119))
     ax.imshow(data)
+    ax2.plot(temps)
     # h.set_data(data)
     plt.show()
     return output
@@ -77,7 +78,8 @@ if __name__ == '__main__':
     window.title("HTPA_VIEWER")
 
     fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
+    ax = fig.add_subplot(2, 1, 1)
+    ax2 = fig.add_subplot(2, 1, 2)
 
     # app = tk.Tk()
     # app.geometry('200x100')
