@@ -40,17 +40,13 @@ def selectOutputDir():
 
 def take_a_photo():
     print("taking photo is about to begin")
-    with serial.Serial() as ser:
-        ser.baudrate = 1000000
-        ser.port = connected[1]
-        ser.open()
-        ser.write(b'd')
-        data = ser.read()
-        print(data)
+        # ser.write(b'd')
+        # data = ser.read()
+        # print(data)
 
     # time.sleep(0.05)
     # output = ser.read(80*64).decode().strip()
-    output = ser.readline()
+    # output = ser.readline()
     # print(output.hex())
     # output=output.hex()
     # output_dec = int(output, 16)
@@ -74,16 +70,27 @@ def stop_a_video():
 # speeds = ['1200','2400', '4800', '9600', '19200', '38400', '57600', '115200']
 
 def open_COM_port():
-    ser.port = combobox.get()
-    print(ser.port)
+    with serial.Serial() as ser:
+        ser.port = combobox.get()
+        print(ser.port)
+        ser.baudrate = 1000000
+        print(ser.baudrate)
+        ser.port = connectedPorts[1]
+        ser.open()
+        if ser.is_open == True:
+            print("\nAll right, serial port now open. Configuration:\n")
+            print(ser, "\n")  # print serial parameters
+        ser.write(b"d")
+        data = ser.read()
+        print(data)
 
 def close_COM_port():
     text1.insert(INSERT, 'port is closed')
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    ser = serial.Serial(port='COM6', baudrate=1000000, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
-    bytesize=serial.EIGHTBITS, timeout=0.1)
+    # ser = serial.Serial(port='COM6', baudrate=1000000, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
+    # bytesize=serial.EIGHTBITS, timeout=0.1)
     window = Tk()
     window.geometry('900x500')
     window.title("HTPA_VIEWER")
