@@ -8,18 +8,24 @@ from tkinter.filedialog import *
 from tkinter import ttk
 import matplotlib.pyplot as plt
 import serial
-import serial.tools.list_ports
-from numpy import uint16, double
 
-port_list = list(serial.tools.list_ports.comports())
+from numpy import uint16, double
+# import pyserial
+
+# port_list = list(serial.tools.list_ports.comports())
 # print(port_list)
 # from serial import serial
 import time
 import os
 import numpy as np
 
-# outputFile = "C:/Users/Stasy/Desktop/output2FLASH.txt"
+import serial.tools.list_ports
 
+comlist = serial.tools.list_ports.comports()
+connectedPorts = []
+for element in comlist:
+    connectedPorts.append(element.device)
+print("Connected COM ports: " + str(connectedPorts))
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
@@ -34,10 +40,17 @@ def selectOutputDir():
 
 def take_a_photo():
     print("taking photo is about to begin")
-    ser.write(b'd')
+    with serial.Serial() as ser:
+        ser.baudrate = 1000000
+        ser.port = connected[1]
+        ser.open()
+        ser.write(b'd')
+        data = ser.read()
+        print(data)
+
     # time.sleep(0.05)
-    output = ser.read(80*64*7+80).decode().strip()
-    # output = ser.readline()
+    # output = ser.read(80*64).decode().strip()
+    output = ser.readline()
     # print(output.hex())
     # output=output.hex()
     # output_dec = int(output, 16)
@@ -61,17 +74,14 @@ def stop_a_video():
 # speeds = ['1200','2400', '4800', '9600', '19200', '38400', '57600', '115200']
 
 def open_COM_port():
-    data = ser.readline(10)
-    text1.insert(INSERT, data)
-    print("ready phrase was received")
-    return data
+    print("something")
 
 def close_COM_port():
     text1.insert(INSERT, 'port is closed')
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    ser = serial.Serial(port='COM20', baudrate=2000000, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
+    ser = serial.Serial(port='COM6', baudrate=1000000, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
     bytesize=serial.EIGHTBITS, timeout=0.1)
     window = Tk()
     window.geometry('900x500')
@@ -85,7 +95,7 @@ if __name__ == '__main__':
     # app.geometry('200x100')
     labelTop = tk.Label(window, text="Выбор COM порта")
     labelTop.grid(column=0, row=0)
-    comboExample = ttk.Combobox(window, values=['a', 'b'])
+    comboExample = ttk.Combobox(window, values=connectedPorts)
     # print(dict(comboExample))
     comboExample.grid(column=0, row=1)
     comboExample.current(1)
