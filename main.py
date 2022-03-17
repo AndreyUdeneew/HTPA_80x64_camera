@@ -81,6 +81,8 @@ def open_COM_port():
         if ser.is_open == True:
             print("\nAll right, serial port now open. Configuration:\n")
             print(ser, "\n")  # print serial parameters
+        data = ser.readline()
+        print(data)
         ser.write(b"d")
         data = ser.readline()
         print(data)
