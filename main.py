@@ -74,7 +74,8 @@ def stop_a_video():
 # speeds = ['1200','2400', '4800', '9600', '19200', '38400', '57600', '115200']
 
 def open_COM_port():
-    print("something")
+    ser.port = combobox.get()
+    print(ser.port)
 
 def close_COM_port():
     text1.insert(INSERT, 'port is closed')
@@ -95,10 +96,10 @@ if __name__ == '__main__':
     # app.geometry('200x100')
     labelTop = tk.Label(window, text="Выбор COM порта")
     labelTop.grid(column=0, row=0)
-    comboExample = ttk.Combobox(window, values=connectedPorts)
+    combobox = ttk.Combobox(window, values=connectedPorts)
     # print(dict(comboExample))
-    comboExample.grid(column=0, row=1)
-    comboExample.current(1)
+    combobox.grid(column=0, row=1)
+    combobox.current(1)
     # print(comboExample.current(), comboExample.get())
 
     text1 = Text(width=30, height=1)
