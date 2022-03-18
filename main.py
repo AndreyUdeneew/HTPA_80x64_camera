@@ -8,6 +8,7 @@ from tkinter.filedialog import *
 from tkinter import ttk
 import matplotlib.pyplot as plt
 import serial
+import cv2
 
 from numpy import uint16, double
 # import pyserial
@@ -84,18 +85,27 @@ def open_COM_port():
             print(ser, "\n")  # print serial parameters
         data = ser.read(10)
         print(data)
-        ser.write(b"d")
-        data = ser.read(5120*4)
-        # data32 = data.astype(np.uint32)
-        for i in range(len(data)):
-            values.append(int(data[i]))
-        values = np.array(values, dtype=np.uint8)
-        values32 = values.view(dtype=np.uint32)
-        # print(len(values32))
-        values32 = np.resize(values32, (64, 80))
-        # print(values32)
-        plt.imshow(values32)
-        plt.show()
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        frameNum=0;
+        if ser.is_open == True:
+            while True:
+                ser.write(b"d")
+                data = ser.read(5120*4)
+                for i in range(len(data)):
+                    values.append(int(data[i]))
+                valuesArray = np.array(values, dtype=np.uint8)
+                values = []
+                values32 = valuesArray.view(dtype=np.uint32)
+                values32 = np.resize(values32, (64, 80))
+                # frameNum += 1
+                print(frameNum)
+                plt.imshow(values32)
+                plt.pause(0.05)
+                plt.clf()
+                # plt.show()
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
 
 def close_COM_port():
     text1.insert(INSERT, 'port is closed')
