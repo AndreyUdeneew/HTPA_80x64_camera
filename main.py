@@ -78,7 +78,7 @@ def open_COM_port():
         ser.baudrate = 500000
         print(ser.baudrate)
         ser.port = connectedPorts[1]
-        ser.timeout = 4
+        ser.timeout = 2
         ser.open()
         if ser.is_open == True:
             print("\nAll right, serial port now open. Configuration:\n")
@@ -98,11 +98,11 @@ def open_COM_port():
                 values = []
                 values32 = valuesArray.view(dtype=np.uint32)
                 values32 = np.resize(values32, (64, 80))
-                # frameNum += 1
+                frameNum += 1
                 print(frameNum)
                 plt.imshow(values32)
                 plt.pause(0.05)
-                plt.clf()
+                # plt.cla()
                 # plt.show()
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
