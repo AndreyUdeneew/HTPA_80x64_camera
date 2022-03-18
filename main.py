@@ -73,18 +73,18 @@ def open_COM_port():
     with serial.Serial() as ser:
         ser.port = combobox.get()
         print(ser.port)
-        ser.baudrate = 1000000
+        ser.baudrate = 500000
         print(ser.baudrate)
         ser.port = connectedPorts[1]
-        ser.timeout = 10
+        ser.timeout = 4
         ser.open()
         if ser.is_open == True:
             print("\nAll right, serial port now open. Configuration:\n")
             print(ser, "\n")  # print serial parameters
-        data = ser.readline()
+        data = ser.read(10)
         print(data)
         ser.write(b"d")
-        data = ser.readline()
+        data = ser.read(5120*4)
         print(data)
 
 def close_COM_port():
