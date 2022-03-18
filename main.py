@@ -70,6 +70,7 @@ def stop_a_video():
 # speeds = ['1200','2400', '4800', '9600', '19200', '38400', '57600', '115200']
 
 def open_COM_port():
+    values = []
     with serial.Serial() as ser:
         ser.port = combobox.get()
         print(ser.port)
@@ -85,7 +86,16 @@ def open_COM_port():
         print(data)
         ser.write(b"d")
         data = ser.read(5120*4)
-        print(data)
+        # data32 = data.astype(np.uint32)
+        for i in range(len(data)):
+            values.append(int(data[i]))
+        values = np.array(values, dtype=np.uint8)
+        values32 = values.view(dtype=np.uint32)
+        # print(len(values32))
+        values32 = np.resize(values32, (64, 80))
+        # print(values32)
+        plt.imshow(values32)
+        plt.show()
 
 def close_COM_port():
     text1.insert(INSERT, 'port is closed')
@@ -98,9 +108,9 @@ if __name__ == '__main__':
     window.geometry('900x500')
     window.title("HTPA_VIEWER")
 
-    fig = plt.figure()
-    ax = fig.add_subplot(2, 1, 1)
-    ax2 = fig.add_subplot(2, 1, 2)
+    # fig = plt.figure()
+    # ax = fig.add_subplot(2, 1, 1)
+    # ax2 = fig.add_subplot(2, 1, 2)
 
     # app = tk.Tk()
     # app.geometry('200x100')
