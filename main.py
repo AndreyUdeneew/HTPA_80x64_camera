@@ -70,7 +70,7 @@ def stop_a_video():
 
 # speeds = ['1200','2400', '4800', '9600', '19200', '38400', '57600', '115200']
 
-def open_COM_port():
+def videoPreview():
     values = []
     with serial.Serial() as ser:
         ser.port = combobox.get()
@@ -143,7 +143,7 @@ if __name__ == '__main__':
     btn2.grid(column=6, row=0)
     btn3 = Button(window, text="Стоп", command=stop_a_video)
     btn3.grid(column=7, row=0)
-    btn4 = Button(window, text="Открыть порт", command=open_COM_port)
+    btn4 = Button(window, text="videoPreview", command=videoPreview)
     btn4.grid(column=1, row=1)
     btn5 = Button(window, text="Закрыть порт", command=close_COM_port)
     btn5.grid(column=2, row=1)
